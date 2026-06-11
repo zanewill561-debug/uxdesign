@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业微信管理平台 | 韦永锌</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #000;
+            --surface-950: #000;
+            --surface-900: #18181b;
+            --surface-850: #1e1e22;
+            --surface-800: #27272a;
+            --surface-700: #3f3f46;
+            --surface-600: #52525b;
+            --surface-500: #71717a;
+            --surface-400: #a1a1ab;
+            --surface-300: #d4d4da;
+            --surface-200: #e8e8ec;
+            --surface-100: #f3f3f5;
+            --primary: #7c6aff;
+            --primary-400: #8b7fff;
+            --primary-300: #a5a0ff;
+            --accent-green: #6EFF9C;
+            --accent-blue: #66DDFF;
+            --accent-pink: #FFB8DF;
+            --accent-yellow: #FFE878;
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --radius-md: 18px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--surface-300);
+            font-family: 'Urbanist', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+            overflow-x: clip;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.8;
+        }
+
+        /* 导航 */
+        .case-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 16px clamp(1.5rem, 4vw, 4rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .case-nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--surface-400);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+        .case-nav-back:hover { color: #fff; }
+        .case-nav-label {
+            font-size: 10px;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* 英雄区 */
+        .case-hero {
+            padding: 140px clamp(1.5rem, 5vw, 6rem) 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .case-hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary-300);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .case-hero-label .dot {
+            width: 6px; height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+        .case-hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        .case-hero-subtitle {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            color: var(--surface-400);
+            max-width: 600px;
+            font-weight: 300;
+        }
+
+        /* 封面图 */
+        .case-cover {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 clamp(1.5rem, 5vw, 6rem);
+        }
+        .case-cover img {
+            width: 100%;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* 内容区 */
+        .case-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.5rem, 5vw, 6rem) 120px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
+        }
+        @media (min-width: 768px) {
+            .case-content { grid-template-columns: 1fr 1fr; }
+        }
+
+        .case-section {
+            /* 每个内容块 */
+        }
+        .case-section.full-width {
+            grid-column: 1 / -1;
+        }
+        .case-section-label {
+            font-size: 10px;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .case-section-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        .case-section-text {
+            font-size: 15px;
+            color: var(--surface-400);
+            line-height: 1.9;
+        }
+        .case-section-text strong { color: #fff; font-weight: 600; }
+
+        /* 数据卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--surface-500);
+            font-weight: 500;
+        }
+
+        /* 图片画廊 - 平铺滚动 */
+        .case-gallery {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .case-gallery img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.06);
+            display: block;
+        }
+
+        /* 标签 */
+        .case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .case-tag {
+            font-size: 11px;
+            color: var(--surface-500);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 7px 16px;
+            border-radius: 8px;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+
+        /* 底部导航 */
+        .case-footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.5rem, 5vw, 6rem) 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding-top: 48px;
+        }
+        .case-footer-link {
+            color: var(--surface-400);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .case-footer-link:hover { color: #fff; }
+
+        /* 响应式 */
+        @media (max-width: 767px) {
+            .case-hero { padding-top: 100px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航 -->
+    <nav class="case-nav">
+        <a href="../index.html" class="case-nav-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            返回作品集
+        </a>
+        <span class="case-nav-label">Case Study 01</span>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="case-hero">
+        <div class="case-hero-label">
+            <span class="dot"></span>
+            XX银行 · 企业微信核心经营系统
+        </div>
+        <h1 class="case-hero-title">企业微信管理平台</h1>
+        <p class="case-hero-subtitle">
+            主导重构百亿级私域流量的经营架构，通过"素材-产品-任务-转化"的全局链路优化，赋能一线经理实现精准商机捕获。
+        </p>
+    </section>
+
+    <!-- 封面图 -->
+    <div class="case-cover">
+        <img src="../files/bc01.webp" alt="企业微信管理平台" loading="lazy">
+    </div>
+
+    <!-- 内容 -->
+    <div class="case-content">
+
+        <div class="case-section">
+            <div class="case-section-label">项目背景</div>
+            <h2 class="case-section-title">项目概述</h2>
+            <p class="case-section-text">
+                <!-- TODO: 从 PDF 中补充详细项目背景 -->
+                该平台是 XX 银行私域流量经营的核心系统，服务于数千名一线客户经理。
+                原有系统存在操作碎片化、信息架构混乱等问题，严重影响业务效率。
+            </p>
+        </div>
+
+        <div class="case-section">
+            <div class="case-section-label">核心挑战</div>
+            <h2 class="case-section-title">设计挑战</h2>
+            <p class="case-section-text">
+                <!-- TODO: 从 PDF 中补充详细设计挑战 -->
+                业务流程碎片化导致操作效率低下；B 端系统复杂度高，用户学习成本大；
+                需要在保证功能完整性的同时提升易用性。
+            </p>
+        </div>
+
+        <div class="case-section full-width">
+            <div class="case-section-label">设计策略</div>
+            <h2 class="case-section-title">解决方案</h2>
+            <p class="case-section-text">
+                <!-- TODO: 从 PDF 中补充详细解决方案 -->
+                通过<strong>"素材-产品-任务-转化"</strong>的全局链路优化，重新定义信息架构与交互路径。
+                消解了 B 端操作的碎片化感，建立统一的设计规范体系。
+            </p>
+        </div>
+
+        <div class="case-section full-width">
+            <div class="case-section-label">项目成果</div>
+            <h2 class="case-section-title">关键指标</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">40%</div>
+                    <div class="stat-label">经营效能提升</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1000+</div>
+                    <div class="stat-label">一线经理用户</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">百亿级</div>
+                    <div class="stat-label">私域流量规模</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 案例详情图片 -->
+        <div class="case-gallery">
+            <img src="../gallery/01/page_01.webp" alt="案例详情 1" loading="lazy">
+            <img src="../gallery/01/page_02.webp" alt="案例详情 2" loading="lazy">
+            <img src="../gallery/01/page_03.webp" alt="案例详情 3" loading="lazy">
+            <img src="../gallery/01/page_04.webp" alt="案例详情 4" loading="lazy">
+            <img src="../gallery/01/page_05.webp" alt="案例详情 5" loading="lazy">
+            <img src="../gallery/01/page_06.webp" alt="案例详情 6" loading="lazy">
+            <img src="../gallery/01/page_07.webp" alt="案例详情 7" loading="lazy">
+            <img src="../gallery/01/page_08.webp" alt="案例详情 8" loading="lazy">
+            <img src="../gallery/01/page_09.webp" alt="案例详情 9" loading="lazy">
+            <img src="../gallery/01/page_10.webp" alt="案例详情 10" loading="lazy">
+            <img src="../gallery/01/page_11.webp" alt="案例详情 11" loading="lazy">
+            <img src="../gallery/01/page_12.webp" alt="案例详情 12" loading="lazy">
+            <img src="../gallery/01/page_13.webp" alt="案例详情 13" loading="lazy">
+            <img src="../gallery/01/page_14.webp" alt="案例详情 14" loading="lazy">
+            <img src="../gallery/01/page_15.webp" alt="案例详情 15" loading="lazy">
+            <img src="../gallery/01/page_16.webp" alt="案例详情 16" loading="lazy">
+        </div>
+
+        <div class="case-section full-width">
+            <div class="case-section-label">设计方法</div>
+            <h2 class="case-section-title">核心设计策略</h2>
+            <div class="case-tags">
+                <span class="case-tag">策略化设计规范</span>
+                <span class="case-tag">复杂业务流重构</span>
+                <span class="case-tag">全渠道链路追踪</span>
+                <span class="case-tag">用户旅程地图</span>
+                <span class="case-tag">信息架构优化</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="case-footer">
+        <a href="../index.html" class="case-footer-link">← 返回作品集</a>
+        <a href="case2.html" class="case-footer-link">下一个案例 →</a>
+    </div>
+
+</body>
+</html>
